@@ -10,7 +10,7 @@ const steps = [
   {
     number: '02',
     title: 'Strategy Call',
-    description: 'We'll review your business and create a custom growth plan.',
+    description: "We'll review your business and create a custom growth plan.",
   },
   {
     number: '03',
