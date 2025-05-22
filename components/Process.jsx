@@ -1,89 +1,90 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion'
 
 export default function Process() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   const steps = [
     {
-      number: "1",
+      id: 1,
       title: "Apply",
-      description: "I'll review your profile and current stats to see if we're a good fit for each other.",
-      icon: "📝",
+      description: "Fill out our application to see if you're a good fit for our services. We only work with creators who we're confident we can help succeed.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-12 h-12 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+      )
     },
     {
-      number: "2",
-      title: "Onboarding",
-      description: "We'll set up my proven systems for your account and create your custom growth strategy.",
-      icon: "🔄",
+      id: 2,
+      title: "Onboard",
+      description: "Our team will analyze your account, create a custom growth strategy, and set up all the systems needed to scale your OnlyFans.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-12 h-12 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+      )
     },
     {
-      number: "3",
-      title: "Scale Revenue",
-      description: "Watch your subscribers and revenue grow as I handle everything from chat to content strategy.",
-      icon: "📈",
-    },
-  ];
+      id: 3,
+      title: "Scale",
+      description: "Watch your subscriber count, engagement, and revenue grow as we implement our proven strategies and manage your account 24/7.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-12 h-12 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      )
+    }
+  ]
 
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
-    visible: {
+    show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
-      },
-    },
-  };
+        staggerChildren: 0.2
+      }
+    }
+  }
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-      },
-    },
-  };
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  }
 
   return (
-    <section id="process" className="py-20 bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-            Our Simple Process
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Three steps to transform your OnlyFans into a six-figure business
-          </p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+    <section className="section bg-slate-900 text-white">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
         >
-          {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              className="process-card"
+          <h2>Our Simple 3-Step Process</h2>
+          <p className="mt-4 text-xl text-slate-300 max-w-3xl mx-auto">
+            We've streamlined our process to get you results as quickly as possible.
+          </p>
+        </motion.div>
+        
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-3 gap-8 mt-12"
+        >
+          {steps.map((step) => (
+            <motion.div 
+              key={step.id}
+              variants={item}
+              className="card bg-slate-800 text-center"
             >
-              <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-r from-primary to-secondary rounded-full text-white text-2xl font-bold mb-6">
-                {step.number}
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-white">{step.title}</h3>
-              <p className="text-gray-300">{step.description}</p>
+              <div className="flex justify-center mb-4">{step.icon}</div>
+              <h3 className="mb-2">{step.title}</h3>
+              <p className="text-slate-400">{step.description}</p>
             </motion.div>
           ))}
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
