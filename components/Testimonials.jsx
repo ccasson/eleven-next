@@ -1,134 +1,87 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion'
+import Slider from 'react-slick'
+import Image from 'next/image'
 
 export default function Testimonials() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-  
-  const [currentSlide, setCurrentSlide] = useState(0);
-
   const testimonials = [
     {
-      quote: "Elevan doubled my revenue in just 30 days. Their chat system converts like crazy!",
-      name: "Sophia M.",
-      role: "Top 0.2% OnlyFans Creator",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+      id: 1,
+      name: "Sarah J.",
+      role: "Fitness Creator",
+      quote: "Working with Elevan has completely transformed my OnlyFans business. In just 3 months, my revenue increased by 7x and I'm working fewer hours than ever. Their chat management team is incredible!",
+      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80"
     },
     {
-      quote: "From $15K to $86K monthly in 90 days. Their high-ticket strategy changed everything.",
-      name: "Jessica & Mark",
-      role: "Couple Creators, Top 0.5%",
-      image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?auto=format&fit=crop&w=400&q=80"
+      id: 2,
+      name: "Michael T.",
+      role: "Lifestyle Creator",
+      quote: "I was skeptical at first, but Elevan delivered on every promise. Their strategies helped me grow from $5k to over $50k per month in less than 6 months. The best investment I've ever made in my business.",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
     },
     {
-      quote: "The viral growth playbook got me 12,000 new subscribers in my first month.",
-      name: "Olivia R.",
-      role: "Top 0.3% OnlyFans Creator",
-      image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80"
-    },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-    
-    return () => clearInterval(interval);
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.6,
-      },
-    },
-  };
-
+      id: 3,
+      name: "Jessica M.",
+      role: "Fashion Creator",
+      quote: "The team at Elevan doesn't just manage your account - they transform it. My subscriber count has tripled, my retention rate is at 85%, and I'm making more in a week than I used to make in a month.",
+      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80"
+    }
+  ]
+  
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    pauseOnHover: true
+  }
+  
   return (
-    <section id="testimonials" className="py-20 bg-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-            Creator Success Stories
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Hear from creators who transformed their OnlyFans with our management
-          </p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="relative"
+    <section className="section bg-slate-900 text-white">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
         >
-          <div className="overflow-hidden">
-            <div className="flex">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  initial={{ opacity: 0, x: 100 }}
-                  animate={{ 
-                    opacity: currentSlide === index ? 1 : 0,
-                    x: currentSlide === index ? 0 : 100,
-                    position: currentSlide === index ? 'relative' : 'absolute'
-                  }}
-                  transition={{ duration: 0.5 }}
-                  className="w-full testimonial-card"
-                >
-                  <div className="flex flex-col md:flex-row items-center gap-6 p-6">
-                    <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0">
-                      <img 
-                        src={testimonial.image || "/placeholder.svg"} 
-                        alt={`${testimonial.name} profile`}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <div className="mb-4 text-4xl text-primary">❝</div>
-                      <p className="text-gray-300 mb-6 italic text-lg">{testimonial.quote}</p>
-                      <div>
-                        <p className="font-bold text-white">{testimonial.name}</p>
-                        <p className="text-primary">{testimonial.role}</p>
-                      </div>
-                    </div>
+          <h2>What Our Clients Say</h2>
+          <p className="mt-4 text-xl text-slate-300 max-w-3xl mx-auto">
+            Don't just take our word for it. Hear from creators who have transformed their OnlyFans with our help.
+          </p>
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-4xl mx-auto mt-12"
+        >
+          <Slider {...sliderSettings}>
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="px-4">
+                <div className="bg-slate-800 rounded-lg p-8 text-center">
+                  <div className="relative w-20 h-20 mx-auto mb-4 overflow-hidden rounded-full border-4 border-primary">
+                    <Image
+                      src={testimonial.image || "/placeholder.svg"}
+                      alt={testimonial.name}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  currentSlide === index ? 'bg-primary w-6' : 'bg-gray-600'
-                }`}
-              />
+                  <p className="text-xl italic mb-6">"{testimonial.quote}"</p>
+                  <h4 className="font-semibold">{testimonial.name}</h4>
+                  <p className="text-slate-400">{testimonial.role}</p>
+                </div>
+              </div>
             ))}
-          </div>
+          </Slider>
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
