@@ -2,60 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 26, 26, 26;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-base font-normal text-slate-800 bg-white;
+  }
+  
+  h1 {
+    @apply text-5xl font-bold leading-tight;
+  }
+  
+  h2 {
+    @apply text-4xl font-bold leading-tight;
+  }
+  
+  h3 {
+    @apply text-2xl font-semibold leading-snug;
+  }
+  
+  p {
+    @apply leading-relaxed;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-}
-
-.btn-primary {
-  @apply bg-primary text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105 hover:bg-secondary;
-}
-
-.btn-secondary {
-  @apply bg-transparent text-white font-semibold py-3 px-6 rounded-full border border-primary transition-all duration-300 transform hover:scale-105 hover:bg-secondary hover:border-secondary;
-}
-
-.gradient-text {
-  @apply bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text;
-}
-
-.gradient-overlay {
-  background: linear-gradient(135deg, rgba(0, 196, 255, 0.4), rgba(255, 0, 200, 0.4));
-}
-
-.service-card {
-  @apply bg-gray-900 p-6 rounded-xl shadow-lg flex flex-col items-center text-center transition-all duration-300;
-}
-
-.pricing-card {
-  @apply bg-gray-900 p-8 rounded-xl shadow-lg transition-all duration-300;
-}
-
-.pricing-card-highlight {
-  @apply bg-gradient-to-br from-primary/10 to-secondary/10 border border-secondary/30;
-}
-
-.testimonial-card {
-  @apply bg-gray-900 p-6 rounded-xl shadow-lg;
-}
-
-.process-card {
-  @apply bg-gray-900 p-6 rounded-xl shadow-lg flex flex-col items-center text-center;
-}
-
-.trust-badge {
-  @apply flex items-center transition-all duration-300 hover:scale-105;
-}
-
-.trust-badge:hover svg {
-  @apply text-secondary;
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 font-semibold rounded-md transition-all duration-250 ease-in-out;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-secondary;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-primary text-primary hover:bg-secondary hover:border-secondary hover:text-white;
+  }
+  
+  .container {
+    @apply px-4 mx-auto max-w-7xl sm:px-6 lg:px-8;
+  }
+  
+  .section {
+    @apply py-16 md:py-24;
+  }
+  
+  .section-title {
+    @apply mb-12 text-center;
+  }
+  
+  .card {
+    @apply p-6 bg-white rounded-lg shadow-md transition-all duration-300;
+  }
+  
+  .card-hover {
+    @apply hover:shadow-xl hover:-translate-y-1;
+  }
 }
