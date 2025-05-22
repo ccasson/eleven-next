@@ -1,41 +1,38 @@
-import Head from 'next/head';
-import Nav from '../components/Nav';
-import Hero from '../components/Hero';
-import Services from '../components/Services';
-import Pricing from '../components/Pricing';
-import Results from '../components/Results';
-import Process from '../components/Process';
-import Testimonials from '../components/Testimonials';
-import FAQ from '../components/FAQ';
-import TrustBar from '../components/TrustBar';
-import ApplyForm from '../components/ApplyForm';
-import Footer from '../components/Footer';
+import Head from 'next/head'
+import Nav from '../components/Nav'
+import Hero from '../components/Hero'
+import Services from '../components/Services'
+import Pricing from '../components/Pricing'
+import Results from '../components/Results'
+import Process from '../components/Process'
+import FAQ from '../components/FAQ'
+import Testimonials from '../components/Testimonials'
+import ResourcesList from '../components/ResourcesList'
+import ApplyForm from '../components/ApplyForm'
+import TrustBar from '../components/TrustBar'
+import Footer from '../components/Footer'
 
 export default function Home() {
   return (
-    <div className="bg-dark">
+    <>
       <Head>
         <title>Elevan – OnlyFans Management Agency</title>
-        <meta name="description" content="We scale OnlyFans creators with viral growth, 24/7 chat & six-figure payouts." />
-        <meta property="og:title" content="Elevan – OnlyFans Management Agency" />
-        <meta property="og:description" content="We scale OnlyFans creators with viral growth, 24/7 chat & six-figure payouts." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://elevan.agency" />
+        <meta name="description" content="Done-for-you chat, viral growth & six-figure payouts for OnlyFans creators." />
         <meta property="og:image" content="/images/og.jpg" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      
       <Nav />
       <Hero />
       <Services />
       <Pricing />
       <Results />
       <Process />
-      <Testimonials />
       <FAQ />
+      <Testimonials />
+      <ResourcesList />
       <ApplyForm />
       <TrustBar />
       <Footer />
-    </div>
-  );
+    </>
+  )
 }
