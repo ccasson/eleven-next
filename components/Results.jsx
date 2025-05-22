@@ -25,9 +25,21 @@ export default function Results() {
   ];
 
   const slides = [
-    { image: "/images/of-pay-1.png", alt: "OnlyFans earnings statement showing $86,000 monthly revenue from Feb 2024 to Feb 2025" },
-    { image: "/images/of-pay-2.png", alt: "OnlyFans earnings statement showing $132,000 monthly revenue from Feb 2024 to Feb 2025" },
-    { image: "/images/of-pay-3.png", alt: "OnlyFans earnings statement showing $48,000 monthly revenue from Feb 2024 to Feb 2025" },
+    { 
+      image: "/images/of-pay-1.png", 
+      alt: "OnlyFans earnings statement showing $28,142 NET for August 2024",
+      fallback: "https://images.unsplash.com/photo-1611068815476-7d51e6425e7d?auto=format&fit=crop&w=1170&q=80"
+    },
+    { 
+      image: "/images/of-pay-2.png", 
+      alt: "OnlyFans earnings statement showing $64,887 NET for January 2025",
+      fallback: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1171&q=80"
+    },
+    { 
+      image: "/images/of-pay-3.png", 
+      alt: "OnlyFans earnings statement showing $97,301 NET for February 2025",
+      fallback: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1115&q=80"
+    },
   ];
 
   useEffect(() => {
@@ -100,10 +112,10 @@ export default function Results() {
   };
 
   return (
-    <section id="results" className="py-20 bg-gray-900">
+    <section id="results" className="py-20 bg-dark">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
             Real Creator Results
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -121,7 +133,7 @@ export default function Results() {
           >
             {results.map((result, index) => (
               <motion.div key={index} variants={itemVariants} className="text-center">
-                <div className="flex flex-col items-center justify-center bg-gray-800 rounded-xl p-6">
+                <div className="flex flex-col items-center justify-center bg-gray-900 rounded-xl p-6">
                   <div className="flex items-center mb-2">
                     <span className="text-2xl font-bold text-gray-400">${index === 0 ? count1 : index === 1 ? count3 : count5}k</span>
                     <span className="mx-2 text-2xl text-gray-400">→</span>
@@ -137,7 +149,7 @@ export default function Results() {
             variants={itemVariants}
             initial="hidden"
             animate={controls}
-            className="relative h-[500px] rounded-xl overflow-hidden"
+            className="relative h-[500px] rounded-xl overflow-hidden shadow-xl"
           >
             {slides.map((slide, index) => (
               <motion.div
@@ -151,11 +163,10 @@ export default function Results() {
                 className="absolute inset-0"
               >
                 <div className="relative w-full h-full">
-                  <Image 
-                    src={slide.image || "/placeholder.svg"} 
+                  <img 
+                    src={slide.fallback || "/placeholder.svg"} 
                     alt={slide.alt}
-                    fill
-                    style={{ objectFit: 'cover' }}
+                    className="w-full h-full object-cover"
                   />
                 </div>
               </motion.div>
