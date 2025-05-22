@@ -1,128 +1,100 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Disclosure } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { useInView } from 'react-intersection-observer';
-import Link from 'next/link';
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 
 export default function FAQ() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
+  const [openIndex, setOpenIndex] = useState(null)
+  
   const faqs = [
     {
-      question: "How does the revenue share model work?",
-      answer: "We take a percentage of your monthly OnlyFans revenue based on your chosen plan. This aligns our incentives with yours - we only succeed when you do. All payments are processed securely through Stripe."
+      id: 1,
+      question: "How does your chat management service work?",
+      answer: "Our team of professional chat managers handles all subscriber messages 24/7. We respond to DMs, comments, and messages using your voice and style. This increases subscriber retention and revenue through personalized engagement while saving you hours of time each day."
     },
     {
-      question: "What happens to my existing subscribers?",
-      answer: "Your existing subscribers remain yours. We focus on growing your subscriber base and increasing revenue from both new and existing fans through our proven engagement strategies."
+      id: 2,
+      question: "What results can I expect?",
+      answer: "While results vary based on your starting point and niche, our clients typically see a 3-5x increase in revenue within the first 3 months. Our comprehensive approach addresses all aspects of your OnlyFans business, from subscriber acquisition to retention and monetization."
     },
     {
-      question: "Who handles my chat and DMs?",
-      answer: "Our professional chat team handles all your messages using your voice and style guide. We're trained to maximize conversions while maintaining authentic relationships with your fans."
+      id: 3,
+      question: "How do you maintain my privacy and security?",
+      answer: "Privacy and security are our top priorities. We use enterprise-grade security measures, sign comprehensive NDAs, and implement strict access controls. Your personal information and content are always protected, and we never share your data with third parties."
     },
     {
-      question: "How quickly will I see results?",
-      answer: "Most creators see significant growth within the first 30 days. Our Growth and Elite plans typically achieve 2-3x revenue within 60-90 days, though results vary based on your starting point and content quality."
+      id: 4,
+      question: "Do I need a minimum subscriber count to work with you?",
+      answer: "We work with creators at all stages, from those just starting out to established accounts. Our strategies are tailored to your specific situation and goals. What matters most is your commitment to growth and willingness to implement our proven systems."
     },
     {
-      question: "Do I need to create more content?",
-      answer: "We optimize your existing content strategy and provide guidance on what performs best. While more quality content helps, our focus is on maximizing returns from your current production capacity."
+      id: 5,
+      question: "How long does it take to see results?",
+      answer: "Most clients begin seeing measurable improvements within the first 30 days. Significant revenue increases typically occur within 60-90 days as our strategies take full effect. We provide detailed weekly reports so you can track your progress every step of the way."
     },
     {
-      question: "Can I cancel anytime?",
-      answer: "Yes, all our plans are month-to-month with no long-term contracts. We require a 14-day notice period to ensure a smooth transition if you decide to leave."
+      id: 6,
+      question: "What makes you different from other management agencies?",
+      answer: "Unlike most agencies, we specialize exclusively in OnlyFans and have developed proprietary systems specifically for this platform. Our performance-based pricing means we only succeed when you do, and our comprehensive approach addresses all aspects of your business rather than just one element."
     }
-  ];
+  ]
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  const toggleFaq = (index) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
 
   return (
-    <section id="faq" className="py-20 bg-gray-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-            Frequently Asked Questions
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Everything you need to know about our OnlyFans management services
+    <section id="faq" className="section bg-slate-100">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
+        >
+          <h2>Frequently Asked Questions</h2>
+          <p className="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">
+            Everything you need to know about our services and how we can help you scale your OnlyFans.
           </p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="space-y-4 mb-12"
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="max-w-3xl mx-auto mt-12"
         >
           {faqs.map((faq, index) => (
-            <motion.div key={index} variants={itemVariants} className="bg-gray-800 rounded-lg overflow-hidden">
-              <Disclosure>
-                {({ open }) => (
-                  <>
-                    <Disclosure.Button className="flex justify-between w-full px-6 py-4 text-left text-white font-medium focus:outline-none">
-                      <span>{faq.question}</span>
-                      <ChevronDownIcon
-                        className={`${
-                          open ? 'transform rotate-180' : ''
-                        } w-5 h-5 text-primary transition-transform duration-300`}
-                      />
-                    </Disclosure.Button>
-                    <AnimatePresence>
-                      {open && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <Disclosure.Panel className="px-6 pb-4 text-gray-300">
-                            {faq.answer}
-                          </Disclosure.Panel>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </>
-                )}
-              </Disclosure>
-            </motion.div>
+            <div 
+              key={faq.id} 
+              className="mb-4 border border-slate-200 rounded-lg overflow-hidden"
+            >
+              <button
+                className="flex justify-between items-center w-full p-4 text-left bg-white hover:bg-slate-50 transition-colors"
+                onClick={() => toggleFaq(index)}
+              >
+                <h3 className="text-lg font-semibold">{faq.question}</h3>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  className={`h-5 w-5 text-slate-500 transition-transform ${openIndex === index ? 'transform rotate-180' : ''}`} 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div 
+                className={`overflow-hidden transition-all duration-300 ${
+                  openIndex === index ? 'max-h-96 p-4 bg-white' : 'max-h-0'
+                }`}
+              >
+                <p className="text-slate-600">{faq.answer}</p>
+              </div>
+            </div>
           ))}
         </motion.div>
-
-        <div className="text-center">
-          <p className="text-gray-300 mb-6">
-            Still have questions? We're here to help you succeed.
-          </p>
-          <Link href="#contact">
-            <span className="btn-primary inline-block">
-              Book a Free Consultation
-            </span>
-          </Link>
-        </div>
       </div>
     </section>
-  );
+  )
 }
