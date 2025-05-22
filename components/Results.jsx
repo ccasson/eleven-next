@@ -1,191 +1,124 @@
-import { useState, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import Image from 'next/image';
+import { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import CountUp from 'react-countup'
+import Slider from 'react-slick'
 
 export default function Results() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const controls = useAnimation();
-  const [count1, setCount1] = useState(0);
-  const [count2, setCount2] = useState(0);
-  const [count3, setCount3] = useState(0);
-  const [count4, setCount4] = useState(0);
-  const [count5, setCount5] = useState(0);
-  const [count6, setCount6] = useState(0);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const results = [
-    { before: 12, after: 86, period: "3 mo" },
-    { before: 22, after: 132, period: "4 mo" },
-    { before: 7, after: 48, period: "2 mo" },
-  ];
-
-  const slides = [
-    { 
-      image: "/images/of-pay-1.png", 
-      alt: "OnlyFans earnings statement showing $28,142 NET for August 2024",
-      fallback: "https://images.unsplash.com/photo-1611068815476-7d51e6425e7d?auto=format&fit=crop&w=1170&q=80"
-    },
-    { 
-      image: "/images/of-pay-2.png", 
-      alt: "OnlyFans earnings statement showing $64,887 NET for January 2025",
-      fallback: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1171&q=80"
-    },
-    { 
-      image: "/images/of-pay-3.png", 
-      alt: "OnlyFans earnings statement showing $97,301 NET for February 2025",
-      fallback: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1115&q=80"
-    },
-  ];
-
+  const [hasAnimated, setHasAnimated] = useState(false)
+  const countupRef = useRef(null)
+  
+  const stats = [
+    { id: 1, value: 87, label: "Average Revenue Increase", suffix: "%" },
+    { id: 2, value: 24, label: "Hours Saved Per Week", suffix: "" },
+    { id: 3, value: 90, label: "Client Retention Rate", suffix: "%" },
+    { id: 4, value: 250, label: "Creators Scaled to 6-Figures", suffix: "+" }
+  ]
+  
+  const payouts = [
+    { id: 1, image: "/images/of-pay-1.png", alt: "OnlyFans Payout - $38k November 2024" },
+    { id: 2, image: "/images/of-pay-2.png", alt: "OnlyFans Payout - $67k February 2025" },
+    { id: 3, image: "/images/of-pay-3.png", alt: "OnlyFans Payout - $92k April 2025" }
+  ]
+  
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    pauseOnHover: true
+  }
+  
   useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-      
-      const timer1 = setTimeout(() => {
-        animateNumber(0, results[0].before, setCount1, 1500);
-        animateNumber(0, results[0].after, setCount2, 2000);
-      }, 300);
-      
-      const timer2 = setTimeout(() => {
-        animateNumber(0, results[1].before, setCount3, 1500);
-        animateNumber(0, results[1].after, setCount4, 2000);
-      }, 600);
-      
-      const timer3 = setTimeout(() => {
-        animateNumber(0, results[2].before, setCount5, 1500);
-        animateNumber(0, results[2].after, setCount6, 2000);
-      }, 900);
-      
-      return () => {
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-        clearTimeout(timer3);
-      };
-    }
-  }, [inView, controls]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true)
+        }
+      },
+      { threshold: 0.1 }
+    )
     
-    return () => clearInterval(interval);
-  }, []);
-
-  const animateNumber = (start, end, setter, duration) => {
-    let startTimestamp = null;
-    const step = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      setter(Math.floor(progress * (end - start) + start));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
+    if (countupRef.current) {
+      observer.observe(countupRef.current)
+    }
+    
+    return () => {
+      if (countupRef.current) {
+        observer.unobserve(countupRef.current)
       }
-    };
-    window.requestAnimationFrame(step);
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-      },
-    },
-  };
-
+    }
+  }, [hasAnimated])
+  
   return (
-    <section id="results" className="py-20 bg-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-            Real Creator Results
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Our clients consistently scale from struggling to six-figure monthly earnings
+    <section id="results" className="section bg-slate-100">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
+        >
+          <h2>Real Results for Real Creators</h2>
+          <p className="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">
+            Our clients consistently achieve life-changing results with our proven systems and strategies.
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            ref={ref}
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        </motion.div>
+        
+        <div className="grid md:grid-cols-2 gap-12 mt-12">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            ref={countupRef}
+            className="grid grid-cols-2 gap-6"
           >
-            {results.map((result, index) => (
-              <motion.div key={index} variants={itemVariants} className="text-center">
-                <div className="flex flex-col items-center justify-center bg-gray-900 rounded-xl p-6">
-                  <div className="flex items-center mb-2">
-                    <span className="text-2xl font-bold text-gray-400">${index === 0 ? count1 : index === 1 ? count3 : count5}k</span>
-                    <span className="mx-2 text-2xl text-gray-400">→</span>
-                    <span className="text-3xl font-bold text-primary">${index === 0 ? count2 : index === 1 ? count4 : count6}k</span>
-                  </div>
-                  <p className="text-gray-300 font-medium">{result.period}</p>
-                </div>
-              </motion.div>
+            {stats.map((stat) => (
+              <div key={stat.id} className="card text-center">
+                <h3 className="text-4xl font-bold text-primary mb-2">
+                  {hasAnimated && (
+                    <CountUp 
+                      end={stat.value} 
+                      duration={2.5} 
+                      suffix={stat.suffix} 
+                    />
+                  )}
+                </h3>
+                <p className="text-slate-600">{stat.label}</p>
+              </div>
             ))}
           </motion.div>
-
+          
           <motion.div
-            variants={itemVariants}
-            initial="hidden"
-            animate={controls}
-            className="relative h-[500px] rounded-xl overflow-hidden shadow-xl"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-lg shadow-lg p-6"
           >
-            {slides.map((slide, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0 }}
-                animate={{ 
-                  opacity: currentSlide === index ? 1 : 0,
-                  x: currentSlide === index ? 0 : currentSlide > index ? -100 : 100
-                }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0"
-              >
-                <div className="relative w-full h-full">
-                  <img 
-                    src={slide.fallback || "/placeholder.svg"} 
-                    alt={slide.alt}
-                    className="w-full h-full object-cover"
-                  />
+            <h3 className="mb-4 text-center">Recent Client Payouts</h3>
+            <Slider {...sliderSettings}>
+              {payouts.map((payout) => (
+                <div key={payout.id} className="px-2">
+                  <div className="relative h-[400px] rounded-lg overflow-hidden border border-slate-200">
+                    <Image
+                      src={payout.image || "/placeholder.svg"}
+                      alt={payout.alt}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
                 </div>
-              </motion.div>
-            ))}
-            
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`w-3 h-3 rounded-full ${
-                    currentSlide === index ? 'bg-primary' : 'bg-gray-600'
-                  }`}
-                />
               ))}
-            </div>
+            </Slider>
           </motion.div>
         </div>
       </div>
     </section>
-  );
+  )
 }
