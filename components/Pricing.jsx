@@ -1,126 +1,122 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import Link from 'next/link';
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function Pricing() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   const plans = [
     {
+      id: 1,
       name: "Starter",
-      price: "25% Rev Share",
+      price: "25%",
+      description: "Perfect for creators just starting out who want to scale quickly.",
       features: [
-        "Weekly stats",
-        "Basic chat (12h)",
-        "Content calendar"
+        "24/7 Chat Management",
+        "Basic Content Strategy",
+        "Weekly Performance Reports",
+        "Email Support"
       ],
-      cta: "Get Started",
-      link: "#apply",
+      cta: "Apply Now",
       highlighted: false
     },
     {
+      id: 2,
       name: "Growth",
-      price: "35% Rev Share",
+      price: "35%",
+      description: "Our most popular plan for creators ready to scale to six figures.",
       features: [
-        "24/7 chat",
-        "Viral promotions",
-        "Paid ad budget",
-        "Personal manager"
+        "24/7 Premium Chat Management",
+        "Advanced Content Strategy",
+        "Growth Marketing Campaigns",
+        "Twice-Weekly Strategy Calls",
+        "Priority Support"
       ],
-      cta: "Scale Me",
-      link: "#apply",
+      cta: "Apply Now",
       highlighted: true
     },
     {
+      id: 3,
       name: "Elite",
-      price: "50% Rev Share",
+      price: "50%",
+      description: "For established creators looking to maximize revenue and scale beyond.",
       features: [
-        "Everything in Growth",
-        "Pro video editing",
-        "Daily analytics call",
-        "Dedicated legal help"
+        "VIP Chat Management",
+        "Custom Content Strategy",
+        "Advanced Growth Marketing",
+        "Daily Strategy Calls",
+        "Revenue Optimization",
+        "Dedicated Account Manager"
       ],
-      cta: "Apply for Elite",
-      link: "#apply",
+      cta: "Apply Now",
       highlighted: false
     }
-  ];
+  ]
 
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
-    visible: {
+    show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
+        staggerChildren: 0.1
+      }
+    }
+  }
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  }
 
   return (
-    <section id="pricing" className="py-20 bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-            Transparent Pricing
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Choose the plan that fits your current stage and growth goals
-          </p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+    <section id="pricing" className="section bg-slate-900 text-white">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
         >
-          {plans.map((plan, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ 
-                y: -4,
-                boxShadow: plan.highlighted ? "0 20px 25px -5px rgba(255, 0, 200, 0.1), 0 10px 10px -5px rgba(255, 0, 200, 0.04)" : "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
-              }}
-              transition={{ duration: 0.3 }}
-              className={`pricing-card ${plan.highlighted ? 'pricing-card-highlight' : ''}`}
+          <h2>Simple, Performance-Based Pricing</h2>
+          <p className="mt-4 text-xl text-slate-300 max-w-3xl mx-auto">
+            We only succeed when you do. Our performance-based pricing means we're fully aligned with your growth goals.
+          </p>
+        </motion.div>
+        
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"
+        >
+          {plans.map((plan) => (
+            <motion.div 
+              key={plan.id}
+              variants={item}
+              className={`card ${plan.highlighted ? 'border-2 border-primary' : 'bg-slate-800'} transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}
             >
-              <h3 className="text-2xl font-bold mb-2 text-white">{plan.name}</h3>
-              <p className="text-3xl font-bold mb-6 gradient-text">
-                {plan.price}
-              </p>
-              <ul className="mb-8 space-y-3">
-                {plan.features.map((feature, i) => (
-                  <li key={i} className="flex items-start">
-                    <span className="text-primary mr-2">•</span>
-                    <span className="text-gray-300">{feature}</span>
+              <div className="text-center mb-6">
+                <h3 className="mb-2">{plan.name}</h3>
+                <p className="text-5xl font-bold mb-2">{plan.price}</p>
+                <p className="text-slate-400">of monthly revenue</p>
+              </div>
+              <p className="text-center mb-6">{plan.description}</p>
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary mr-2" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    {feature}
                   </li>
                 ))}
               </ul>
-              <Link href={plan.link}>
-                <span className={`block text-center py-3 px-6 rounded-full font-medium transition-all duration-300 ${plan.highlighted ? 'btn-primary' : 'btn-secondary'}`}>
-                  {plan.cta}
-                </span>
+              <Link href="/#apply" className={`btn-primary w-full text-center ${plan.highlighted ? 'bg-primary hover:bg-secondary' : ''}`}>
+                {plan.cta}
               </Link>
             </motion.div>
           ))}
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
