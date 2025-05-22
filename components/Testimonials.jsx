@@ -1,136 +1,134 @@
-import { useState, useRef } from 'react'
-import { motion, useAnimation } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import Image from 'next/image'
-
-const testimonials = [
-  {
-    quote: "Working with Eleven has been transformative for my business. They helped me double my revenue in just 3 months!",
-    author: "Sarah Johnson",
-    role: "Fitness Creator",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    quote: "The strategies they implemented helped me grow my audience by 400% and create a sustainable business model.",
-    author: "Mark Williams",
-    role: "Tech Educator",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-  {
-    quote: "Eleven's team understood exactly what my brand needed. They're truly experts in the creator economy.",
-    author: "Jessica Chen",
-    role: "Lifestyle Creator",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-]
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function Testimonials() {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
-  })
+  });
   
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const constraintsRef = useRef(null)
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleDragEnd = (e, { offset, velocity }) => {
-    const swipe = offset.x
+  const testimonials = [
+    {
+      quote: "Elevan doubled my revenue in just 30 days. Their chat system converts like crazy!",
+      name: "Sophia M.",
+      role: "Top 0.2% OnlyFans Creator",
+      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      quote: "From $15K to $86K monthly in 90 days. Their high-ticket strategy changed everything.",
+      name: "Jessica & Mark",
+      role: "Couple Creators, Top 0.5%",
+      image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      quote: "The viral growth playbook got me 12,000 new subscribers in my first month.",
+      name: "Olivia R.",
+      role: "Top 0.3% OnlyFans Creator",
+      image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=400&q=80"
+    },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % testimonials.length);
+    }, 6000);
     
-    if (swipe < -50 && currentIndex < testimonials.length - 1) {
-      setCurrentIndex(currentIndex + 1)
-    } else if (swipe > 50 && currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1)
-    }
-  }
+    return () => clearInterval(interval);
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+      },
+    },
+  };
 
   return (
-    <section id="testimonials" className="py-20 bg-white">
-      <div className="container-custom">
+    <section id="testimonials" className="py-20 bg-dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <motion.h2 
-            className="section-title"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-          >
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
             Creator Success Stories
-          </motion.h2>
-          <motion.p 
-            className="section-subtitle mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Hear from creators who have transformed their businesses
-          </motion.p>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Hear from creators who transformed their OnlyFans with our management
+          </p>
         </div>
 
-        <div ref={ref} className="relative overflow-hidden">
-          <motion.div
-            ref={constraintsRef}
-            className="cursor-grab active:cursor-grabbing"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5 }}
-          >
-            <motion.div
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.1}
-              onDragEnd={handleDragEnd}
-              className="flex"
-              style={{ x: `calc(-${currentIndex * 100}%)` }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            >
+        <motion.div
+          ref={ref}
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="relative"
+        >
+          <div className="overflow-hidden">
+            <div className="flex">
               {testimonials.map((testimonial, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="min-w-full px-4"
+                  variants={itemVariants}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ 
+                    opacity: currentSlide === index ? 1 : 0,
+                    x: currentSlide === index ? 0 : 100,
+                    position: currentSlide === index ? 'relative' : 'absolute'
+                  }}
+                  transition={{ duration: 0.5 }}
+                  className="w-full testimonial-card"
                 >
-                  <div className="bg-gray-50 rounded-xl p-8 shadow-lg max-w-3xl mx-auto">
-                    <div className="flex flex-col md:flex-row items-center gap-6">
-                      <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0">
-                        <Image
-                          src={testimonial.avatar || "/placeholder.svg"}
-                          alt={testimonial.author}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-lg italic mb-4">"{testimonial.quote}"</p>
-                        <div>
-                          <p className="font-bold">{testimonial.author}</p>
-                          <p className="text-gray-600">{testimonial.role}</p>
-                        </div>
+                  <div className="flex flex-col md:flex-row items-center gap-6 p-6">
+                    <div className="w-24 h-24 rounded-full overflow-hidden flex-shrink-0">
+                      <img 
+                        src={testimonial.image || "/placeholder.svg"} 
+                        alt={`${testimonial.name} profile`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <div className="mb-4 text-4xl text-primary">❝</div>
+                      <p className="text-gray-300 mb-6 italic text-lg">{testimonial.quote}</p>
+                      <div>
+                        <p className="font-bold text-white">{testimonial.name}</p>
+                        <p className="text-primary">{testimonial.role}</p>
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </motion.div>
-          </motion.div>
-
+            </div>
+          </div>
+          
           <div className="flex justify-center mt-8 space-x-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-3 h-3 rounded-full ${
-                  currentIndex === index ? 'bg-primary' : 'bg-gray-300'
+                onClick={() => setCurrentSlide(index)}
+                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  currentSlide === index ? 'bg-primary w-6' : 'bg-gray-600'
                 }`}
-                aria-label={`Go to testimonial ${index + 1}`}
               />
             ))}
           </div>
-          
-          <div className="text-center mt-8">
-            <p className="text-sm text-gray-500">
-              Swipe to see more testimonials
-            </p>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
-  )
+  );
 }
