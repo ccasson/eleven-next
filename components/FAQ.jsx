@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { useInView } from 'react-intersection-observer';
+import Link from 'next/link';
 
 export default function FAQ() {
   const [ref, inView] = useInView({
@@ -62,7 +63,7 @@ export default function FAQ() {
     <section id="faq" className="py-20 bg-gray-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
             Frequently Asked Questions
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -75,7 +76,7 @@ export default function FAQ() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="space-y-4"
+          className="space-y-4 mb-12"
         >
           {faqs.map((faq, index) => (
             <motion.div key={index} variants={itemVariants} className="bg-gray-800 rounded-lg overflow-hidden">
@@ -110,6 +111,17 @@ export default function FAQ() {
             </motion.div>
           ))}
         </motion.div>
+
+        <div className="text-center">
+          <p className="text-gray-300 mb-6">
+            Still have questions? We're here to help you succeed.
+          </p>
+          <Link href="#contact">
+            <span className="btn-primary inline-block">
+              Book a Free Consultation
+            </span>
+          </Link>
+        </div>
       </div>
     </section>
   );
