@@ -13,12 +13,12 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   return (
-    <div className="bg-dark text-white">
+    <div className="bg-dark">
       <Head>
         <title>Elevan – OnlyFans Management Agency</title>
-        <meta name="description" content="Done-for-you chat, viral growth & 6-figure results for OnlyFans creators." />
+        <meta name="description" content="We scale OnlyFans creators with viral growth, 24/7 chat & six-figure payouts." />
         <meta property="og:title" content="Elevan – OnlyFans Management Agency" />
-        <meta property="og:description" content="Done-for-you chat, viral growth & 6-figure results for OnlyFans creators." />
+        <meta property="og:description" content="We scale OnlyFans creators with viral growth, 24/7 chat & six-figure payouts." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://elevan.agency" />
         <meta property="og:image" content="/images/og.jpg" />
