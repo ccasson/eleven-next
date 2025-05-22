@@ -71,10 +71,10 @@ export default function Pricing() {
   };
 
   return (
-    <section id="pricing" className="py-20 bg-dark">
+    <section id="pricing" className="py-20 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
             Transparent Pricing
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -94,14 +94,14 @@ export default function Pricing() {
               key={index}
               variants={itemVariants}
               whileHover={{ 
-                y: -10,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                y: -4,
+                boxShadow: plan.highlighted ? "0 20px 25px -5px rgba(255, 0, 200, 0.1), 0 10px 10px -5px rgba(255, 0, 200, 0.04)" : "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
               }}
               transition={{ duration: 0.3 }}
-              className={`rounded-xl p-8 ${plan.highlighted ? 'bg-gradient-to-br from-primary/20 to-secondary/20 border border-secondary/50' : 'bg-gray-800'}`}
+              className={`pricing-card ${plan.highlighted ? 'pricing-card-highlight' : ''}`}
             >
               <h3 className="text-2xl font-bold mb-2 text-white">{plan.name}</h3>
-              <p className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
+              <p className="text-3xl font-bold mb-6 gradient-text">
                 {plan.price}
               </p>
               <ul className="mb-8 space-y-3">
