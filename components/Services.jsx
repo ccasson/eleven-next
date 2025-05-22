@@ -1,89 +1,100 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion'
 
 export default function Services() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   const services = [
     {
-      title: "24/7 Chat & Monetisation",
-      description: "Never miss a sale with our AI-powered chat systems that convert subscribers into buyers.",
-      icon: "💬",
+      id: 1,
+      title: "Chat Management",
+      description: "Our team handles all subscriber messages 24/7, increasing retention and revenue through personalized engagement.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-10 h-10 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+        </svg>
+      )
     },
     {
-      title: "Viral Growth Playbooks",
-      description: "Custom strategies to 10x your subscriber count fast with proven promotion techniques.",
-      icon: "🚀",
+      id: 2,
+      title: "Content Strategy",
+      description: "Data-driven content planning that maximizes engagement and conversions based on subscriber preferences.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-10 h-10 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+        </svg>
+      )
     },
     {
-      title: "High-Ticket Fan Upsells",
-      description: "Convert regular fans into premium spenders with our tested upsell frameworks.",
-      icon: "💎",
+      id: 3,
+      title: "Growth Marketing",
+      description: "Targeted promotion strategies across platforms to consistently attract new high-quality subscribers.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-10 h-10 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      )
     },
     {
-      title: "Pro Content Editing",
-      description: "Studio-quality edits that keep subscribers coming back and willing to pay more.",
-      icon: "🎬",
-    },
-  ];
+      id: 4,
+      title: "Revenue Optimization",
+      description: "Advanced pricing and offer strategies that maximize your earnings without sacrificing subscriber growth.",
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-10 h-10 text-primary">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    }
+  ]
 
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
-    visible: {
+    show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
+        staggerChildren: 0.1
+      }
+    }
+  }
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  }
 
   return (
-    <section id="services" className="py-20 bg-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
-            Our Premium Services
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Everything you need to dominate OnlyFans and maximize your earnings
-          </p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+    <section id="services" className="section bg-slate-100">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
         >
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -5 }}
-              className="service-card"
+          <h2>Our Services</h2>
+          <p className="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">
+            We handle everything you need to scale your OnlyFans account to six figures and beyond.
+          </p>
+        </motion.div>
+        
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12"
+        >
+          {services.map((service) => (
+            <motion.div 
+              key={service.id}
+              variants={item}
+              className="card card-hover"
             >
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
-              <p className="text-gray-300">{service.description}</p>
+              <div className="mb-4">{service.icon}</div>
+              <h3 className="mb-2">{service.title}</h3>
+              <p className="text-slate-600">{service.description}</p>
             </motion.div>
           ))}
         </motion.div>
       </div>
     </section>
-  );
+  )
 }
