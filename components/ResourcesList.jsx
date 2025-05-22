@@ -1,102 +1,100 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import Link from 'next/link';
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import Image from 'next/image'
 
 export default function ResourcesList() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   const resources = [
     {
-      title: "5 Ways to Double OF Tips",
-      excerpt: "Learn the psychological triggers that make fans want to tip more and how to implement them in your chat strategy.",
-      image: "/placeholder.svg?height=200&width=300",
-      link: "#"
+      id: 1,
+      title: "How to Grow Your OnlyFans from Zero to Six Figures",
+      excerpt: "Learn the proven strategies that have helped our clients scale their OnlyFans accounts to six-figure monthly earnings.",
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+      date: "November 15, 2024"
     },
     {
-      title: "Batch Shoot Content in 2 Hours",
-      excerpt: "Our proven system for creating a week's worth of high-quality content in just one short session.",
-      image: "/placeholder.svg?height=200&width=300",
-      link: "#"
+      id: 2,
+      title: "The Ultimate Guide to OnlyFans Chat Management",
+      excerpt: "Discover how professional chat management can increase your subscriber retention and boost your monthly revenue.",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80",
+      date: "October 28, 2024"
     },
     {
-      title: "Prevent Chat Burn-out",
-      excerpt: "How top creators maintain boundaries while keeping fans engaged and spending consistently.",
-      image: "/placeholder.svg?height=200&width=300",
-      link: "#"
+      id: 3,
+      title: "Content Strategy: What Top 1% Creators Are Doing",
+      excerpt: "An in-depth analysis of content strategies used by the most successful OnlyFans creators in 2024.",
+      image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80",
+      date: "October 12, 2024"
     }
-  ];
+  ]
 
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
-    visible: {
+    show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
+        staggerChildren: 0.1
+      }
+    }
+  }
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  }
 
   return (
-    <section className="py-20 bg-dark">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
-            Creator Resources
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Free guides and strategies to help you grow your OnlyFans
-          </p>
-        </div>
-
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+    <section className="section bg-slate-100">
+      <div className="container">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="section-title"
         >
-          {resources.map((resource, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -10 }}
-              transition={{ duration: 0.3 }}
-              className="bg-gray-800 rounded-xl overflow-hidden"
+          <h2>Creator Resources</h2>
+          <p className="mt-4 text-xl text-slate-600 max-w-3xl mx-auto">
+            Free guides and strategies to help you grow your OnlyFans account.
+          </p>
+        </motion.div>
+        
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"
+        >
+          {resources.map((resource) => (
+            <motion.div 
+              key={resource.id}
+              variants={item}
+              className="card card-hover"
             >
-              <div className="h-48 relative">
-                <img 
-                  src={resource.image || "/placeholder.svg"} 
+              <div className="relative h-48 mb-4 overflow-hidden rounded-lg">
+                <Image
+                  src={resource.image || "/placeholder.svg"}
                   alt={resource.title}
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2 text-white">{resource.title}</h3>
-                <p className="text-gray-300 mb-4">{resource.excerpt}</p>
-                <Link href={resource.link}>
-                  <span className="text-primary hover:text-secondary transition-colors duration-300 font-medium">
-                    Read More →
-                  </span>
-                </Link>
-              </div>
+              <p className="text-sm text-slate-500 mb-2">{resource.date}</p>
+              <h3 className="mb-2">{resource.title}</h3>
+              <p className="text-slate-600 mb-4">{resource.excerpt}</p>
+              <Link href="/resources" className="btn-primary">
+                Read More
+              </Link>
             </motion.div>
           ))}
         </motion.div>
+        
+        <div className="text-center mt-12">
+          <Link href="/resources" className="btn-primary">
+            View All Resources
+          </Link>
+        </div>
       </div>
     </section>
-  );
+  )
 }
