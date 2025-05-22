@@ -1,35 +1,34 @@
-import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
-import { FaChartLine, FaUsers, FaLaptopCode, FaBullhorn } from 'react-icons/fa'
-
-const services = [
-  {
-    title: 'Growth Strategy',
-    description: 'Custom growth plans tailored to your niche, audience, and goals.',
-    icon: <FaChartLine className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'Community Building',
-    description: 'Develop engaged communities that support your brand long-term.',
-    icon: <FaUsers className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'Content Production',
-    description: 'High-quality content creation services to keep your audience engaged.',
-    icon: <FaLaptopCode className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'Monetization',
-    description: 'Implement proven revenue streams to maximize your earning potential.',
-    icon: <FaBullhorn className="h-8 w-8 text-primary" />,
-  },
-]
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
 export default function Services() {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
-  })
+  });
+
+  const services = [
+    {
+      title: "24/7 Chat & Monetisation",
+      description: "Never miss a sale with our AI-powered chat systems that convert subscribers into buyers.",
+      icon: "💬",
+    },
+    {
+      title: "Viral Growth Playbooks",
+      description: "Custom strategies to 10x your subscriber count fast with proven promotion techniques.",
+      icon: "🚀",
+    },
+    {
+      title: "High-Ticket Fan Upsells",
+      description: "Convert regular fans into premium spenders with our tested upsell frameworks.",
+      icon: "💎",
+    },
+    {
+      title: "Pro Content Editing",
+      description: "Studio-quality edits that keep subscribers coming back and willing to pay more.",
+      icon: "🎬",
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -39,7 +38,7 @@ export default function Services() {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -50,50 +49,41 @@ export default function Services() {
         duration: 0.5,
       },
     },
-  }
+  };
 
   return (
-    <section id="services" className="py-20 bg-gray-50">
-      <div className="container-custom">
+    <section id="services" className="py-20 bg-dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <motion.h2 
-            className="section-title"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-          >
-            Our Services
-          </motion.h2>
-          <motion.p 
-            className="section-subtitle mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Comprehensive solutions to help you grow your creator business
-          </motion.p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">
+            Our Premium Services
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Everything you need to dominate OnlyFans and maximize your earnings
+          </p>
         </div>
 
-        <motion.div 
+        <motion.div
           ref={ref}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         >
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300"
               variants={itemVariants}
+              whileHover={{ y: -5 }}
+              className="service-card"
             >
-              <div className="mb-4">{service.icon}</div>
-              <h3 className="text-xl font-bold mb-3">{service.title}</h3>
-              <p className="text-gray-600">{service.description}</p>
+              <div className="text-4xl mb-4">{service.icon}</div>
+              <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
+              <p className="text-gray-300">{service.description}</p>
             </motion.div>
           ))}
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
