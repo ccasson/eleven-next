@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion';
+ldimport { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { CheckIcon, LockClosedIcon, HandshakeIcon } from '@heroicons/react/24/solid';
+import { CheckIcon, LockClosedIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 
 export default function TrustBar() {
   const [ref, inView] = useInView({
