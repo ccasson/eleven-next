@@ -1,4 +1,4 @@
-ldimport { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { CheckIcon, LockClosedIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 
@@ -11,16 +11,16 @@ export default function TrustBar() {
   const trustItems = [
     {
       icon: <CheckIcon className="w-5 h-5 text-primary" />,
-      text: "Stripe Secure"
+      text: 'Stripe Secure',
     },
     {
       icon: <LockClosedIcon className="w-5 h-5 text-primary" />,
-      text: "GDPR Compliant"
+      text: 'GDPR Compliant',
     },
     {
-      icon: <HandshakeIcon className="w-5 h-5 text-primary" />,
-      text: "100% Confidential"
-    }
+      icon: <ShieldCheckIcon className="w-5 h-5 text-primary" />,
+      text: '100% Confidential',
+    },
   ];
 
   return (
