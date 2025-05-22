@@ -23,11 +23,11 @@ html {
 }
 
 .btn-primary {
-  @apply bg-primary hover:bg-secondary text-white font-bold py-3 px-6 rounded-full transition-all duration-250 transform hover:scale-105;
+  @apply bg-primary hover:bg-secondary text-white font-bold py-3 px-6 rounded-full transition-all duration-3000 transform hover:scale-105;
 }
 
 .btn-secondary {
-  @apply bg-transparent hover:bg-secondary text-white font-bold py-3 px-6 rounded-full border border-primary hover:border-secondary transition-all duration-250 transform hover:scale-105;
+  @apply bg-transparent hover:bg-secondary text-white font-bold py-3 px-6 rounded-full border border-primary hover:border-secondary transition-all duration-300 transform hover:scale-105;
 }
 
 .gradient-overlay {
